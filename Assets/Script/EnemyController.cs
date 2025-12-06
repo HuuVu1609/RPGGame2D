@@ -4,21 +4,22 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private Transform playerTran;
+    [SerializeField] protected Transform playerTran;
     [SerializeField] private float moveSpeed = 10f;
 
     [Header("AttackSetting")]
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange =3f;
     [SerializeField] private LayerMask playerLayer;
+    [SerializeField] protected float playerRange = 5f;
+    protected float dist;
 
     [Header("HetlhSettings")]
     [SerializeField] [Range(0f, 100f)] private float hetlh = 100f;
 
 
-    private Rigidbody2D rb;
+    protected Rigidbody2D rb;
     private Animator anim;
-    public float playerRange = 5f;
 
     // Enemy move settings
     private float direction = 1f;
@@ -62,9 +63,9 @@ public class EnemyController : MonoBehaviour
     {
         Destroy(this.gameObject);
     }
-    private void CheckPlayer()
+    protected virtual void CheckPlayer()
     {
-        float dist = Vector3.Distance(transform.position, playerTran.position);
+        dist = Vector3.Distance(transform.position, playerTran.position);
         if (dist < playerRange)
         {
             isAttack = true;
@@ -113,6 +114,7 @@ public class EnemyController : MonoBehaviour
         {
             Collider2D playerCollider = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerLayer);
             var playCtrl = playerCollider.GetComponent<PlayerController>();
+            
             if(playCtrl != null)
             {
                 playCtrl.TakeDamage(10, 30, transform);
