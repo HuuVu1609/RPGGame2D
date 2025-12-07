@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponentInChildren<Animator>();
         sr = GetComponentInChildren<SpriteRenderer>();
+
         attackCount = 0;
         health = maxHealth;
     }
@@ -119,7 +120,7 @@ public class PlayerController : MonoBehaviour
         {
             var ene = enemy.GetComponent<EnemyController>();
             if (ene != null)
-                ene.TakeDamage(damage);
+                ene.TakeDamage(damage, transform);
         }
         
     }

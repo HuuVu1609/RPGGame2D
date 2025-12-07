@@ -10,6 +10,10 @@ public class Enemy_FlayingEye : EnemyController
         {
             Vector2 dir = (playerTran.position - transform.position).normalized;
             rb.linearVelocity = dir * diveSpeed;
+            if (dist < 0.5 )
+            {
+                diveSpeed = 0;
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ public class EnemyController : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] protected Transform playerTran;
-    [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private float moveSpeed = 5f;
 
     [Header("AttackSetting")]
     [SerializeField] private Transform attackPoint;
@@ -17,6 +17,8 @@ public class EnemyController : MonoBehaviour
     [Header("HetlhSettings")]
     [SerializeField] [Range(0f, 100f)] private float hetlh = 100f;
 
+    [Header("DamagedSettings")]
+    [SerializeField] private float klockbackForce;
 
     protected Rigidbody2D rb;
     private Animator anim;
@@ -47,10 +49,12 @@ public class EnemyController : MonoBehaviour
         EnemyMove();
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Transform attacker)
     {
         Debug.Log($"damage: {damage}");
         hetlh = Mathf.Max(hetlh - damage, 0f);
+        float dir = Mathf.Sign(transform.position.x - attacker.position.x);
+        rb.linearVelocity = new Vector2(dir* klockbackForce, rb.linearVelocity.y);
         anim.SetTrigger("hit");
         if(hetlh <= 0f)
         {
