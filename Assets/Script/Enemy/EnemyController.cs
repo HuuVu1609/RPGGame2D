@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -20,8 +21,10 @@ public class EnemyController : MonoBehaviour
     [Header("DamagedSettings")]
     [SerializeField] private float klockbackForce;
 
+    public event Action<EnemyController> OnEnemyDead;
+
     protected Rigidbody2D rb;
-    private Animator anim;
+    protected Animator anim;
 
     // Enemy move settings
     private float direction = 1f;
@@ -29,9 +32,9 @@ public class EnemyController : MonoBehaviour
     private float leftPosX;
     private float rightPosX;
 
-    private bool isMove;
-    private bool isAttack;
-    private void Start()
+    protected bool isMove;
+    protected bool isAttack;
+    protected virtual void Start()
     {
         playerTran = GameObject.FindGameObjectWithTag("Player").transform;
         anim = GetComponent<Animator>();
@@ -65,6 +68,7 @@ public class EnemyController : MonoBehaviour
     }
     public void EnemyDeath()
     {
+        OnEnemyDead?.Invoke(this);
         Destroy(this.gameObject);
     }
     protected virtual void CheckPlayer()
@@ -112,17 +116,22 @@ public class EnemyController : MonoBehaviour
         }
 
     }
-    public void EnemyAttack()
+    public virtual void EnemyAttack()
     {
         if (isAttack == true)
         {
             Collider2D playerCollider = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerLayer);
-            var playCtrl = playerCollider.GetComponent<PlayerController>();
-            
-            if(playCtrl != null)
+            if (playerCollider != null)
             {
-                playCtrl.TakeDamage(10, 30, transform);
+                var playCtrl = playerCollider.GetComponent<PlayerController>();
+            
+                if(playCtrl != null)
+                {
+                    playCtrl.TakeDamage(10, 30, transform);
+                    Debug.Log("player nhan damage");
+                }
             }
+            
         }
     }
 
@@ -134,6 +143,6 @@ public class EnemyController : MonoBehaviour
         Gizmos.DrawLine(transform.position, playerTran.position);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.transform.position, attackRange);
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e671661b89b82f7448f6ce703158366d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 8
   inputH: 0
   jumpForce: 8
   checkGround: {fileID: 7641103917395080850}

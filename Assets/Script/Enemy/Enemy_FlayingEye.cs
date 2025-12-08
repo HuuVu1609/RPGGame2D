@@ -1,19 +1,50 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemy_FlayingEye : EnemyController
 {
-    public float diveSpeed = 10;
+    public float diveSpeed = 10f;
+    public float checkAtkRange = 1f;
+    private Vector3 startPos;
+
+    private void Awake()
+    {
+        startPos = transform.position;  
+    }
+    private void Update()
+    {
+        EnemyAttack();
+    }
     protected override void CheckPlayer()
     {
-         base.CheckPlayer();
-        if(dist < playerRange)
+        base.CheckPlayer();
+
+        if (dist < playerRange && Vector2.Distance(transform.position, startPos) < 3f)
         {
             Vector2 dir = (playerTran.position - transform.position).normalized;
-            rb.linearVelocity = dir * diveSpeed;
-            if (dist < 0.5 )
+            isMove = false;
+            if(dist > checkAtkRange)
             {
-                diveSpeed = 0;
+                rb.linearVelocity = dir * diveSpeed;
             }
+            else
+            {
+                rb.linearVelocity = dir * 0;
+
+            }
+        }
+        else 
+        {
+            isMove = true;
+            isAttack = false;
+            transform.position = Vector2.MoveTowards(transform.position, startPos, diveSpeed* Time.deltaTime);
+        }
+    }
+    public override void EnemyAttack()
+    {
+        base.EnemyAttack();
+        if (isAttack == true)
+        {
+            Debug.Log("ddd");
         }
     }
 }
