@@ -16,7 +16,8 @@ public class EnemyController : MonoBehaviour
     protected float dist;
 
     [Header("HetlhSettings")]
-    [SerializeField] [Range(0f, 100f)] private float hetlh = 100f;
+    [SerializeField] [Range(0f, 100f)] private float maxHealth = 100f;
+    public float health { get; private set; }
 
     [Header("DamagedSettings")]
     [SerializeField] private float klockbackForce;
@@ -44,6 +45,8 @@ public class EnemyController : MonoBehaviour
         leftPosX = startPos.x - 3f;
         rightPosX = startPos.x + 3f;
 
+        health = maxHealth;
+
     }
 
     private void FixedUpdate()
@@ -55,11 +58,11 @@ public class EnemyController : MonoBehaviour
     public void TakeDamage(float damage, Transform attacker)
     {
         Debug.Log($"damage: {damage}");
-        hetlh = Mathf.Max(hetlh - damage, 0f);
+        health = Mathf.Max(health - damage, 0f);
         float dir = Mathf.Sign(transform.position.x - attacker.position.x);
         rb.linearVelocity = new Vector2(dir* klockbackForce, rb.linearVelocity.y);
         anim.SetTrigger("hit");
-        if(hetlh <= 0f)
+        if(health <= 0f)
         {
             anim.SetTrigger("die");
         }
@@ -140,7 +143,7 @@ public class EnemyController : MonoBehaviour
         if (playerTran == null) return;
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, playerTran.position);
+        Gizmos.DrawLine(transform.position, playerTran.position + new Vector3(playerRange, 0));
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);

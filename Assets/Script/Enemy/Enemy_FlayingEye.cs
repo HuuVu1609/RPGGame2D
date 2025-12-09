@@ -18,7 +18,7 @@ public class Enemy_FlayingEye : EnemyController
     {
         base.CheckPlayer();
 
-        if (dist < playerRange && Vector2.Distance(transform.position, startPos) < 3f)
+        if (dist < playerRange )
         {
             Vector2 dir = (playerTran.position - transform.position).normalized;
             isMove = false;
@@ -37,14 +37,6 @@ public class Enemy_FlayingEye : EnemyController
             isMove = true;
             isAttack = false;
             transform.position = Vector2.MoveTowards(transform.position, startPos, diveSpeed* Time.deltaTime);
-        }
-    }
-    public override void EnemyAttack()
-    {
-        base.EnemyAttack();
-        if (isAttack == true)
-        {
-            Debug.Log("ddd");
         }
     }
 }

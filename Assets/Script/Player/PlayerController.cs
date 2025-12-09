@@ -24,8 +24,8 @@ public class PlayerController : MonoBehaviour
     private float comboCounter;
 
     [Header("HealthSettings")]
-    [SerializeField] private float health;
-    private float maxHealth = 100;
+    [SerializeField] private float maxHealth;
+    public float health { get; private set; }
 
     private Rigidbody2D rb;
     private Animator anim;
@@ -60,15 +60,8 @@ public class PlayerController : MonoBehaviour
         {
             PlayerAttackCount();
         }
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            Damage();
-        }
     }
-    private void Damage()
-    {
-        rb.linearVelocity = new Vector2(1000, rb.linearVelocity.y);
-    }
+
     private void PlayerAnimation()
     {
         anim.SetFloat("MoveX", rb.linearVelocity.x);
@@ -167,5 +160,13 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.white;
         Gizmos.DrawLine(checkGround.position, checkGround.position + Vector3.down * checkGroundRange);
         Gizmos.DrawWireSphere(attackPoint.position, atkRange);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Load"))
+        {
+            UIManager.Instance.LoadLeverUI();
+        }
     }
 }
