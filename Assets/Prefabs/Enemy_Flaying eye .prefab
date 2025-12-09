@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 6243203570140657418}
   - component: {fileID: 503916141564471350}
   m_Layer: 7
-  m_Name: Enemy_Flaying eye
+  m_Name: 'Enemy_Flaying eye '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -363,6 +363,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   playerRange: 5
+  playerDamage: 7
+  knockbackForce: 20
   maxHealth: 100
   klockbackForce: 10
   diveSpeed: 10

@@ -42,10 +42,10 @@ GameObject:
   - component: {fileID: 5476881114137016581}
   - component: {fileID: 4809039445120878016}
   - component: {fileID: 2257657055735364447}
-  - component: {fileID: 4921061417120037253}
+  - component: {fileID: 3432006856640036072}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,7 +95,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
-  health: 0
+  maxHealth: 100
 --- !u!50 &2257657055735364447
 Rigidbody2D:
   serializedVersion: 5
@@ -123,7 +123,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &4921061417120037253
+--- !u!70 &3432006856640036072
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,8 +157,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.033227682, y: -1.2783928}
-  m_Size: {x: 0.7990488, y: 2.2276802}
+  m_Offset: {x: -0.008529663, y: -1.202867}
+  m_Size: {x: 0.8583069, y: 2.2455215}
   m_Direction: 0
 --- !u!1 &5298547686826218556
 GameObject:
@@ -413,11 +413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSound: {fileID: 549110304449812093}
-  foolClip:
-  - {fileID: 8300000, guid: 81b8ca50c44d8194bb54823ad11dbfa0, type: 3}
-  - {fileID: 8300000, guid: d4cf16326c738984dbf3bdbc36cb2a98, type: 3}
-  - {fileID: 8300000, guid: b7686e3731ef5284481f8d9c5117e77c, type: 3}
-  - {fileID: 8300000, guid: 36cf58f8d915c0747ad1c769aa188991, type: 3}
+  foolClip: {fileID: 8300000, guid: 81b8ca50c44d8194bb54823ad11dbfa0, type: 3}
   jupmClip: {fileID: 8300000, guid: e2877e2f67be4a64d86b68f9680a7a7e, type: 3}
   atkClip: {fileID: 8300000, guid: fd7874a40b37f484b83cd7a2174ce588, type: 3}
 --- !u!1 &9006385780663836438

@@ -13,6 +13,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float attackRange =3f;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] protected float playerRange = 5f;
+    [SerializeField] private float playerDamage = 5f;
+    [SerializeField] private float knockbackForce = 30;
     protected float dist;
 
     [Header("HetlhSettings")]
@@ -54,7 +56,7 @@ public class EnemyController : MonoBehaviour
         CheckPlayer();
         EnemyMove();
     }
-
+    // DAMAGE && DEATH
     public void TakeDamage(float damage, Transform attacker)
     {
         Debug.Log($"damage: {damage}");
@@ -74,6 +76,8 @@ public class EnemyController : MonoBehaviour
         OnEnemyDead?.Invoke(this);
         Destroy(this.gameObject);
     }
+
+    //CHECK PLAYER
     protected virtual void CheckPlayer()
     {
         dist = Vector3.Distance(transform.position, playerTran.position);
@@ -100,6 +104,7 @@ public class EnemyController : MonoBehaviour
         anim.SetBool("attack", isAttack);
     }
 
+    // MOVE
     private void EnemyMove()
     {
         if (isMove == true)
@@ -119,6 +124,8 @@ public class EnemyController : MonoBehaviour
         }
 
     }
+
+    // ATTACK
     public virtual void EnemyAttack()
     {
         if (isAttack == true)
@@ -130,8 +137,7 @@ public class EnemyController : MonoBehaviour
             
                 if(playCtrl != null)
                 {
-                    playCtrl.TakeDamage(10, 30, transform);
-                    Debug.Log("player nhan damage");
+                    playCtrl.TakeDamage(playerDamage, knockbackForce);
                 }
             }
             

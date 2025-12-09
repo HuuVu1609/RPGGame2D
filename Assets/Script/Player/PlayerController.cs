@@ -62,12 +62,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // ANIMATION
     private void PlayerAnimation()
     {
         anim.SetFloat("MoveX", rb.linearVelocity.x);
         anim.SetFloat("MoveY", rb.linearVelocity.y);
         anim.SetBool("Jump", !isGrounded);
     }
+
+    //MOVE && JUMP
     private void PlayerMove()
     {
         rb.linearVelocity = new Vector2(inputH * moveSpeed , rb.linearVelocity.y);
@@ -91,6 +94,8 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = 1;
         }
     }
+
+    // FLIP
     private void PlayerFlip()
     {
         if (inputH > 0)
@@ -106,14 +111,19 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 180, 0);
         }
     }
+
+    // ATTACK
     private void PlayerAttack(float damage)
     {
         Collider2D[] enemyCtrl = Physics2D.OverlapCircleAll(attackPoint.position, atkRange, enemyLayer);
         foreach(Collider2D enemy in enemyCtrl)
         {
             var ene = enemy.GetComponent<EnemyController>();
+            var boss = enemy.GetComponent<BossController>();
             if (ene != null)
                 ene.TakeDamage(damage, transform);
+            if (boss != null)
+                boss.TakeDamage(damage);
         }
         
     }
@@ -147,14 +157,16 @@ public class PlayerController : MonoBehaviour
                 attackCount = 0;
         }
     }
-    public void TakeDamage(float damage, float knockbackForce, Transform attacker)
+
+    // DAMAGE
+    public void TakeDamage(float damage, float knockbackForce)
     {
         health = Mathf.Max(0, health - damage);
         anim.SetTrigger("hit");
-
-        float dir = Mathf.Sign(transform.position.x - attacker.position.x);
-        rb.linearVelocity = new Vector2(dir * knockbackForce, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(-knockbackForce, rb.linearVelocity.y);
     }
+
+    // GIZMOS
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
@@ -162,6 +174,8 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(attackPoint.position, atkRange);
     }
 
+
+    // COLLIDER
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Load"))

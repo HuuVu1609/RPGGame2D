@@ -1,149 +1,142 @@
-using System;
+﻿using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class BossController : MonoBehaviour
 {
-    [Header("Movement")]
-    [SerializeField] protected Transform playerTran;
-    [SerializeField] private float moveSpeed = 5f;
+    [Header("Movement Settings")]
+    [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private Transform playerTran;
 
-    [Header("AttackSetting")]
-    [SerializeField] private Transform attackPoint;
-    [SerializeField] private float attackRange = 3f;
-    [SerializeField] private LayerMask playerLayer;
-    [SerializeField] protected float playerRange = 5f;
-    protected float dist;
+    [Header("Attack Settings")]
+    [SerializeField] private float checkPlayerRange = 5f;
+    [SerializeField] private float attackPlayerRange = 1f;
 
-    [Header("HetlhSettings")]
-    [SerializeField][Range(0f, 100f)] private float hetlh = 100f;
+    [Header("Random Skill Settings")]
+    [Range(0, 100)]
+    [SerializeField] public int skill1Chance = 100; 
+    [SerializeField] private float attackCooldown = 2f;
+    private float lastAttackTime;
 
-    [Header("DamagedSettings")]
-    [SerializeField] private float klockbackForce;
+    [Header("Health Settings")]
+    [SerializeField][Range(0, 1000)] private float maxHealth = 1000f;
+    private float health;
 
-    protected Rigidbody2D rb;
+
+    private Rigidbody2D rb;
     private Animator anim;
-
-    // Enemy move settings
-    private float direction = 1f;
-    private Vector3 startPos;
-    private float leftPosX;
-    private float rightPosX;
-
-    private bool isMove;
-    private bool isAttack;
+    private SpriteRenderer sr;
     private void Start()
     {
-        playerTran = GameObject.FindGameObjectWithTag("Player").transform;
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        sr = GetComponentInChildren<SpriteRenderer>();
 
-        startPos = transform.position;
-        leftPosX = startPos.x - 3f;
-        rightPosX = startPos.x + 3f;
+        if (playerTran == null)
+            playerTran = GameObject.FindGameObjectWithTag("Player").transform;
 
+        health = maxHealth;
     }
 
     private void FixedUpdate()
     {
-        CheckPlayer();
-        BossMove();
+        BossCtrl();
+        BossFlip();
+    }
+    // CHECK PLAYER
+    private bool CheckPlayerRange()
+    {
+        if (playerTran == null) return false;
+        return Vector3.Distance(transform.position, playerTran.position) <= checkPlayerRange;
     }
 
-    public void TakeDamage(float damage, Transform attacker)
+    private bool AttackPlayerRange()
     {
-        Debug.Log($"damage: {damage}");
-        hetlh = Mathf.Max(hetlh - damage, 0f);
-        float dir = Mathf.Sign(transform.position.x - attacker.position.x);
-        rb.linearVelocity = new Vector2(dir * klockbackForce, rb.linearVelocity.y);
-        anim.SetTrigger("hit");
-        if (hetlh <= 0f)
-        {
-            anim.SetTrigger("die");
-        }
-        isAttack = false;
-        isMove = false;
+        if (playerTran == null) return false;
+        return Vector3.Distance(transform.position, playerTran.position) <= attackPlayerRange;
     }
-    public void BossDeath()
+
+    // MOVE
+    private void BossFlip()
     {
-        Destroy(this.gameObject);
-    }
-    protected virtual void CheckPlayer()
-    {
-        dist = Vector3.Distance(transform.position, playerTran.position);
-        if (dist < playerRange)
-        {
-            isAttack = true;
-            isMove = false;
-            if (playerTran.position.x < transform.position.x)
-            {
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-                direction = -1;
-            }
-            else
-            {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-                direction = 1;
-            }
-        }
+        if (transform.position.x > playerTran.position.x)
+            transform.rotation = Quaternion.Euler(0, 180, 0);
         else
-        {
-            isAttack = false;
-            isMove = true;
-        }
-        anim.SetBool("attack", isAttack);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     private void BossMove()
     {
-        anim.SetBool("run", isMove);
-        if (isMove == true)
-        {
-            rb.linearVelocity = new Vector2(moveSpeed * direction, rb.linearVelocity.y);
+        if (!CheckPlayerRange()) return;
 
-            if (transform.position.x > rightPosX)
-            {
-                direction = -1;
-                transform.rotation = Quaternion.Euler(0, 180, 0);
-            }
-            else if (transform.position.x < leftPosX)
-            {
-                direction = 1;
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
-        }
+        transform.position = Vector3.MoveTowards(transform.position, playerTran.position, moveSpeed * Time.deltaTime);
 
+        anim.SetBool("run", true);
     }
-    public void BossAttack()
+
+    // ATTACK
+    private void BossAttack()
     {
-        if (isAttack == true)
+        if (Time.time < lastAttackTime + attackCooldown) return;
+
+        anim.SetBool("run", false);
+
+        RandomAttack();
+
+        lastAttackTime = Time.time;
+    }
+
+    private void RandomAttack()
+    {
+        int rand = UnityEngine.Random.Range(0, 100);
+
+        if (rand < skill1Chance)
         {
-            Collider2D playerCollider = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerLayer);
-            if (playerCollider != null)
-            {
-                var playCtrl = playerCollider.GetComponent<PlayerController>();
-
-                if (playCtrl != null)
-                {
-                    playCtrl.TakeDamage(10, 30, transform);
-                }
-            }
-
+            anim.SetTrigger("atk1");
+        }
+        else
+        {
+            anim.SetTrigger("atk2");
         }
     }
 
-    public void BossAtk2()
+    private void BossCtrl()
     {
+        if (health <= 300)
+        {
+            skill1Chance = 50;
+            sr.color = Color.red;
+        }
 
+        if (AttackPlayerRange())
+            BossAttack();
+        else
+            BossMove();
     }
 
+    // DEATH && DAMAGE
+    public void BossDeath()
+    {
+        Destroy(gameObject);
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health = Mathf.Max(health - damage, 0);
+
+        if (health > 0)
+            anim.SetTrigger("hit");
+        else
+            anim.SetTrigger("die"); 
+    }
+
+    //GIZMOS
     private void OnDrawGizmos()
     {
-        if (playerTran == null) return;
-
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, playerTran.position);
+        Gizmos.DrawWireSphere(transform.position, checkPlayerRange);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(attackPoint.transform.position, attackRange);
+        Gizmos.DrawWireSphere(transform.position, attackPlayerRange);
     }
 }
