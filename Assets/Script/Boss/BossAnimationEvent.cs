@@ -17,4 +17,8 @@ public class BossAnimationEvent : MonoBehaviour
     {
         StartCoroutine(BossAttack2.instance.BossFireBall());
     }
+    public void BossEndHit()
+    {
+        bossController.EndHit();
+    }
 }

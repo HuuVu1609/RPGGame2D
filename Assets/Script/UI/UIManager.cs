@@ -1,14 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-    [SerializeField] private Slider slider;
-    [SerializeField] private PlayerController playerController;
-    
-    [SerializeField] private Animator anim;
+    [Header("UI settings")]
+    [SerializeField] private Slider[] slider;
+    [SerializeField] private Image[] image;
 
+    [Space]
+    [SerializeField] private PlayerController playerController;
+    [SerializeField] private Animator anim;
 
     private void Awake()
     {
@@ -17,20 +20,37 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
-        slider.maxValue = 100;
-        slider.value = playerController.health;
+        slider[0].maxValue = 100;
+        slider[0].value = playerController.health;
+
+        slider[1].maxValue = 1000;
+        slider[1].value = playerController.health;
     }
     private void Update()
     {
         PlayerHealthUI();
+        BossHealthUI();
     }
 
     private void PlayerHealthUI()
     {
-        slider.value = playerController.health;
+        if(slider == null) return;
+        slider[0].value = playerController.health;
+    }
+    private void BossHealthUI()
+    {
+        if(slider == null) return ;
+        slider[1].value = BossController.instance.health;
     }
     public void LoadLeverUI()
     {
+        if(anim == null) return;
         anim.SetTrigger("start");
+    }
+    public IEnumerator SkillUI(int count,float time)
+    {
+        image[count].color = new Color(0.15f, 0.15f, 0.15f, 0.6f);
+        yield return new WaitForSeconds(time);
+        image[count].color = Color.white;
     }
 }

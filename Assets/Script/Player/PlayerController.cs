@@ -25,10 +25,13 @@ public class PlayerController : MonoBehaviour
 
     [Header("HealthSettings")]
     [SerializeField] private float maxHealth;
-    public float health { get; private set; }
+    public float health { get; set; }
+
+    [Header("Skill")]
+    [SerializeField] private PlayerSkill skill;
 
     private Rigidbody2D rb;
-    private Animator anim;
+    public Animator anim { get; private set; }
     private SpriteRenderer sr;
     private void Awake()
     {
@@ -51,15 +54,29 @@ public class PlayerController : MonoBehaviour
     }
     private void PlayerInput()
     {
+        //input
         inputH = Input.GetAxisRaw("Horizontal");
+
         if (Input.GetKeyDown(KeyCode.Space))
-        {
             PlayerJump();
-        }
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
             PlayerAttackCount();
+
+        if(Input.GetKeyDown(KeyCode.LeftShift))
+            PlayerAttackCount();
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            skill.Skill1Start();
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+            skill.Skill2Start();
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+            skill.Skill3Start();
+
     }
 
     // ANIMATION
@@ -94,6 +111,10 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = 1;
         }
     }
+    private void PlayerRoll()
+    {
+
+    }
 
     // FLIP
     private void PlayerFlip()
@@ -121,7 +142,7 @@ public class PlayerController : MonoBehaviour
             var ene = enemy.GetComponent<EnemyController>();
             var boss = enemy.GetComponent<BossController>();
             if (ene != null)
-                ene.TakeDamage(damage, transform);
+                ene.TakeDamage(damage);
             if (boss != null)
                 boss.TakeDamage(damage);
         }
@@ -133,11 +154,11 @@ public class PlayerController : MonoBehaviour
         {
             case 0:
                 anim.SetTrigger("atk1");
-                PlayerAttack(10);
+                PlayerAttack(5);
                 break;
             case 1:
                 anim.SetTrigger("atk2");
-                PlayerAttack(20);
+                PlayerAttack(10);
                 break;
         }
 

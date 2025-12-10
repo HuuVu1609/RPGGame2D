@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class BossController : MonoBehaviour
 {
+    public static BossController instance {  get; private set; }
+
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private Transform playerTran;
@@ -11,6 +13,10 @@ public class BossController : MonoBehaviour
     [Header("Attack Settings")]
     [SerializeField] private float checkPlayerRange = 5f;
     [SerializeField] private float attackPlayerRange = 1f;
+    [SerializeField] private LayerMask playerLayer;
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private float attackRange = 5;
+    [SerializeField] private float damage = 10;
 
     [Header("Random Skill Settings")]
     [Range(0, 100)]
@@ -20,7 +26,9 @@ public class BossController : MonoBehaviour
 
     [Header("Health Settings")]
     [SerializeField][Range(0, 1000)] private float maxHealth = 1000f;
-    private float health;
+    public float health { get; private set; }
+    private bool isHit = false;
+    private bool isDead = false;
 
 
     private Rigidbody2D rb;
@@ -28,6 +36,8 @@ public class BossController : MonoBehaviour
     private SpriteRenderer sr;
     private void Start()
     {
+        if(instance == null)
+            instance = this;
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
@@ -93,18 +103,33 @@ public class BossController : MonoBehaviour
         if (rand < skill1Chance)
         {
             anim.SetTrigger("atk1");
+            CausingDamage();
         }
         else
         {
             anim.SetTrigger("atk2");
         }
     }
-
+    private void CausingDamage()
+    {
+        Collider2D playerCollier = Physics2D.OverlapCircle(attackPoint.position, attackRange, playerLayer);
+        if (playerCollier != null)
+        {
+            var playerStrl = playerCollier.GetComponent<PlayerController>();
+            if(playerStrl != null)
+            {
+                playerStrl.TakeDamage(damage, 40f);
+            }
+        }
+    }
     private void BossCtrl()
     {
+        if (isDead) return;
+        //if (isHit) return;
         if (health <= 300)
         {
             skill1Chance = 50;
+            damage *= 2;
             sr.color = Color.red;
         }
 
@@ -122,13 +147,25 @@ public class BossController : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        health = Mathf.Max(health - damage, 0);
+        if (isDead) return;
 
-        if (health > 0)
-            anim.SetTrigger("hit");
-        else
-            anim.SetTrigger("die"); 
+        health = Mathf.Max(health - damage, 0);
+        //isHit = true;
+        anim.SetTrigger("hit");
+
+        if (health <= 0)
+        {
+            isDead = true;
+            anim.SetTrigger("die");
+            rb.linearVelocity = Vector2.zero;
+        }
     }
+    public void EndHit()
+    {
+        isHit = false;
+    }
+
+
 
     //GIZMOS
     private void OnDrawGizmos()
@@ -138,5 +175,8 @@ public class BossController : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackPlayerRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

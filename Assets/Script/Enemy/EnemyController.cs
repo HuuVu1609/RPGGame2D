@@ -57,15 +57,15 @@ public class EnemyController : MonoBehaviour
         EnemyMove();
     }
     // DAMAGE && DEATH
-    public void TakeDamage(float damage, Transform attacker)
+    public void TakeDamage(float damage)
     {
         Debug.Log($"damage: {damage}");
         health = Mathf.Max(health - damage, 0f);
-        float dir = Mathf.Sign(transform.position.x - attacker.position.x);
-        rb.linearVelocity = new Vector2(dir* klockbackForce, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(- klockbackForce, rb.linearVelocity.y);
         anim.SetTrigger("hit");
         if(health <= 0f)
         {
+            rb.linearVelocity = Vector3.zero;
             anim.SetTrigger("die");
         }
         isAttack = false;
