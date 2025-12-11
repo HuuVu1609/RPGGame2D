@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 4809039445120878016}
   - component: {fileID: 2257657055735364447}
   - component: {fileID: 3432006856640036072}
+  - component: {fileID: 3299208422457257666}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -90,12 +91,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   isGrounded: 0
+  rollSpeed: 10
+  playerCollider: {fileID: 0}
   attackPoint: {fileID: 5329535096447272227}
   atkRange: 1.06
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
   maxHealth: 100
+  skill: {fileID: 3299208422457257666}
 --- !u!50 &2257657055735364447
 Rigidbody2D:
   serializedVersion: 5
@@ -160,6 +164,28 @@ CapsuleCollider2D:
   m_Offset: {x: -0.008529663, y: -1.202867}
   m_Size: {x: 0.8583069, y: 2.2455215}
   m_Direction: 0
+--- !u!114 &3299208422457257666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4891074722481734059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 535c7bf7ca14ca942a940dab7bddd1a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCtrl: {fileID: 4809039445120878016}
+  skillPrefab:
+  - {fileID: 1721196050511721525, guid: 845f87751ed2b9b4ebd3a5dd3151d85e, type: 3}
+  - {fileID: 8877313198942039021, guid: a8cd1d057b3419649a8afe05e021098b, type: 3}
+  SkillPoint: {fileID: 5329535096447272227}
+  skill1Speed: 30
+  skill2Speed: 30
+  skill1Cooldown: 20
+  skill2Cooldown: 15
+  skill3Cooldown: 10
 --- !u!1 &5298547686826218556
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +230,7 @@ GameObject:
   - component: {fileID: 2884409940330148425}
   - component: {fileID: 549110304449812093}
   - component: {fileID: 5924606974069199374}
+  - component: {fileID: 7723448334710228869}
   m_Layer: 8
   m_Name: playerSprite
   m_TagString: Untagged
@@ -416,6 +443,18 @@ MonoBehaviour:
   foolClip: {fileID: 8300000, guid: 81b8ca50c44d8194bb54823ad11dbfa0, type: 3}
   jupmClip: {fileID: 8300000, guid: e2877e2f67be4a64d86b68f9680a7a7e, type: 3}
   atkClip: {fileID: 8300000, guid: fd7874a40b37f484b83cd7a2174ce588, type: 3}
+--- !u!114 &7723448334710228869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8422516368317071077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac82ea2053d8564491ba6e8f671d2ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9006385780663836438
 GameObject:
   m_ObjectHideFlags: 0

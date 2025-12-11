@@ -91,7 +91,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -121,6 +121,7 @@ MonoBehaviour:
   skill1Chance: 70
   attackCooldown: 2
   maxHealth: 1000
+  klockbackForce: 30
 --- !u!114 &3730721584498349199
 MonoBehaviour:
   m_ObjectHideFlags: 0

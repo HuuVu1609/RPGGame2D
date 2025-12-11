@@ -265,14 +265,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4030747613646155666}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -300,7 +300,7 @@ CapsuleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -358,15 +358,15 @@ MonoBehaviour:
   playerTran: {fileID: 0}
   moveSpeed: 5
   attackPoint: {fileID: 2465489171056901684}
-  attackRange: 3
+  attackRange: 1
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
   playerRange: 5
-  playerDamage: 5
+  playerDamage: 7
   knockbackForce: 30
   maxHealth: 100
-  klockbackForce: 0
+  klockbackForce: 30
 --- !u!1 &6848406535823894999
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,7 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 8377994796265012382}
-  enemyController: {fileID: 0}
+  enemyController: {fileID: 7317783228075003754}
 --- !u!1 &8381442494224229888
 GameObject:
   m_ObjectHideFlags: 0

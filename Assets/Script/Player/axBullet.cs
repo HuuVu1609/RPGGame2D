@@ -1,8 +1,12 @@
 using UnityEngine;
 
-public class axBullet : MonoBehaviour
+public class AxBullet : MonoBehaviour
 {
-    void Update()
+    private void Start()
+    {
+        Destroy(gameObject, 10f);
+    }
+    private void Update()
     {
         transform.Rotate(transform.rotation.x, transform.rotation.y, transform.rotation.z - 10);
     }

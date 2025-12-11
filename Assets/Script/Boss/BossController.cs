@@ -77,11 +77,17 @@ public class BossController : MonoBehaviour
 
     private void BossMove()
     {
-        if (!CheckPlayerRange()) return;
+        if (CheckPlayerRange())
+        {
+            transform.position = Vector3.MoveTowards(transform.position, playerTran.position, moveSpeed * Time.deltaTime);
 
-        transform.position = Vector3.MoveTowards(transform.position, playerTran.position, moveSpeed * Time.deltaTime);
+            anim.SetBool("run", true);
+        }
+        else
+        {
+            anim.SetBool("run", false);
+        }
 
-        anim.SetBool("run", true);
     }
 
     // ATTACK
@@ -130,6 +136,7 @@ public class BossController : MonoBehaviour
         {
             skill1Chance = 50;
             damage *= 2;
+            moveSpeed *= 2;
             sr.color = Color.red;
         }
 

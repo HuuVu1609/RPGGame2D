@@ -15,6 +15,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private bool isGrounded;
 
+    [Header("RollSettings")]
+    [SerializeField] private float rollSpeed = 10f;
+    [SerializeField] private Collider2D playerCollider;
+    private int rollFlip = 1;
+    private bool isRoll;
+
     [Header("AttackSettings")]
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float atkRange;
@@ -63,8 +69,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
             PlayerAttackCount();
 
-        if(Input.GetKeyDown(KeyCode.LeftShift))
-            PlayerAttackCount();
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
+        {
+            anim.SetTrigger("roll");
+        }
+
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -87,9 +96,10 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Jump", !isGrounded);
     }
 
-    //MOVE && JUMP
+    //MOVE, JUMP && ROLL
     private void PlayerMove()
     {
+        if (isRoll) return;
         rb.linearVelocity = new Vector2(inputH * moveSpeed , rb.linearVelocity.y);
     }
     private void CheckGround() => isGrounded = Physics2D.Raycast(checkGround.position, Vector2.down, checkGroundRange, groundLayer);
@@ -111,9 +121,18 @@ public class PlayerController : MonoBehaviour
             rb.gravityScale = 1;
         }
     }
-    private void PlayerRoll()
+    public void PlayerRollStart()
     {
+        isRoll = true;
+         playerCollider.excludeLayers = enemyLayer;
+         rb.linearVelocity = new Vector2(rollSpeed * rollFlip, 0);
 
+    }
+    public void PlayerRollEnd()
+    {
+        isRoll = false;
+        playerCollider.excludeLayers = 0;
+        rb.linearVelocity = new Vector2(0 , 0);
     }
 
     // FLIP
@@ -124,12 +143,14 @@ public class PlayerController : MonoBehaviour
             //sr.flipX = false;
             //attackPoint.localPosition = new Vector3(Mathf.Abs(attackPoint.localPosition.x), attackPoint.localPosition.y, 0);
             transform.rotation = Quaternion.Euler(0,0,0);
+            rollFlip = 1;
         }
         else if (inputH < 0)
         {
             //sr.flipX = true;
             //attackPoint.localPosition = new Vector3(- Mathf.Abs(attackPoint.localPosition.x), attackPoint.localPosition.y, 0);
             transform.rotation = Quaternion.Euler(0, 180, 0);
+            rollFlip = -1;
         }
     }
 

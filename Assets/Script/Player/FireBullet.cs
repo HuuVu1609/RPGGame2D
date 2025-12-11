@@ -7,6 +7,7 @@ public class FireBullet : MonoBehaviour
     private void Start()
     {
         playerTran = GameObject.FindGameObjectWithTag("Player").transform;
+        Destroy(gameObject, 10f );
     }
 
     private void Update()
