@@ -3,7 +3,10 @@ using System.Collections; // Add this line
 
 public class PlayerSkill : MonoBehaviour
 {
+    [Header("Player")]
     [SerializeField] private PlayerController playerCtrl;
+
+    [Header("Attack")]
     [SerializeField] private GameObject[] skillPrefab;
     [SerializeField] private Transform SkillPoint;
     [SerializeField] private float skill1Speed = 10f;
@@ -34,7 +37,17 @@ public class PlayerSkill : MonoBehaviour
             StartCoroutine(UIManager.Instance.SkillUI(0, skill1Cooldown));
             GameObject fireBullet = Instantiate(skillPrefab[0], SkillPoint.position, SkillPoint.rotation);
             var rb = fireBullet.GetComponent<Rigidbody2D>();
-            rb.linearVelocity = new Vector2 (skill1Speed, 0);
+            if(rb != null)
+            {
+                if(transform.position.x < SkillPoint.position.x)
+                {
+                    rb.linearVelocity = new Vector2 (skill1Speed, 0);
+                }
+                else
+                {
+                    rb.linearVelocity = new Vector2(- skill1Speed, 0);
+                }
+            }
 
             timeSkill1 = 0;
         }
@@ -47,7 +60,17 @@ public class PlayerSkill : MonoBehaviour
             StartCoroutine(UIManager.Instance.SkillUI(1, skill2Cooldown));
             GameObject axBullet = Instantiate(skillPrefab[1], SkillPoint.position, SkillPoint.rotation);
             var rb = axBullet.GetComponent<Rigidbody2D>();
-            rb.linearVelocity = new Vector2(skill2Speed, 0);
+            if (rb != null)
+            {
+                if (transform.position.x < SkillPoint.position.x)
+                {
+                    rb.linearVelocity = new Vector2(skill2Speed, 0);
+                }
+                else
+                {
+                    rb.linearVelocity = new Vector2(-skill2Speed, 0);
+                }
+            }
             timeSkill2 = 0;
         }
     }

@@ -27,22 +27,18 @@ public class FireBullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Boss"))
+        //boss
+        var bossCtrl = collision.GetComponent<BossController>();
+        if(bossCtrl != null)
         {
-
-            var bossCtrl = collision.GetComponent<BossController>();
-            if(bossCtrl != null)
-            {
                 bossCtrl.TakeDamage(50);
-            }
         }
-        if (collision.gameObject.CompareTag("Enemy"))
+
+        //enemy
+        var enemyCtrl = collision.GetComponent<EnemyController>();
+        if (enemyCtrl != null)
         {
-            var enemyCtrl = collision.GetComponent<EnemyController>();
-            if (enemyCtrl != null)
-            {
-                enemyCtrl.TakeDamage(50);
-            }
+            enemyCtrl.TakeDamage(50);
         }
     }
 

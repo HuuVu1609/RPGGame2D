@@ -61,7 +61,14 @@ public class EnemyController : MonoBehaviour
     {
         Debug.Log($"damage: {damage}");
         health = Mathf.Max(health - damage, 0f);
-        rb.linearVelocity = new Vector2(- klockbackForce, rb.linearVelocity.y);
+        if(transform.position.x > playerTran.position.x)
+        {
+           rb.linearVelocity = new Vector2(- klockbackForce, rb.linearVelocity.y);
+        }
+        else
+        {
+            rb.linearVelocity = new Vector2(klockbackForce, rb.linearVelocity.y);
+        }
         anim.SetTrigger("hit");
         if(health <= 0f)
         {

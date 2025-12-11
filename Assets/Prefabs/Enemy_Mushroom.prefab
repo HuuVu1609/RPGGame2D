@@ -393,6 +393,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   playerRange: 3
+  playerDamage: 2
+  knockbackForce: 30
   maxHealth: 100
   klockbackForce: 0
 --- !u!114 &6507024745628232571

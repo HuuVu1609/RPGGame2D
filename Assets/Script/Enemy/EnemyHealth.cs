@@ -9,10 +9,11 @@ public class EnemyHealth : MonoBehaviour
     private void Start()
     {
         slider.maxValue = 100;
-        slider.value = enemyController.health;
+        //slider.value = enemyController.health;
     }
     private void Update()
     {
+        if (enemyController != null)
         slider.value = enemyController.health;
     }
 }

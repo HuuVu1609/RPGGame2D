@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 861104780368313578}
   - component: {fileID: 6982336367986036745}
   - component: {fileID: 6243203570140657418}
-  - component: {fileID: 503916141564471350}
+  - component: {fileID: 7317783228075003754}
   m_Layer: 7
   m_Name: 'Enemy_Flaying eye '
   m_TagString: Untagged
@@ -343,7 +343,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &503916141564471350
+--- !u!114 &7317783228075003754
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -358,17 +358,15 @@ MonoBehaviour:
   playerTran: {fileID: 0}
   moveSpeed: 5
   attackPoint: {fileID: 2465489171056901684}
-  attackRange: 1
+  attackRange: 3
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
   playerRange: 5
-  playerDamage: 7
-  knockbackForce: 20
+  playerDamage: 5
+  knockbackForce: 30
   maxHealth: 100
-  klockbackForce: 10
-  diveSpeed: 10
-  checkAtkRange: 4
+  klockbackForce: 0
 --- !u!1 &6848406535823894999
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,7 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 8377994796265012382}
-  enemyController: {fileID: 503916141564471350}
+  enemyController: {fileID: 0}
 --- !u!1 &8381442494224229888
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,7 +584,7 @@ Transform:
   m_GameObject: {fileID: 8381442494224229888}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.64, y: -0.5, z: 0}
+  m_LocalPosition: {x: 1.64, y: -0.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

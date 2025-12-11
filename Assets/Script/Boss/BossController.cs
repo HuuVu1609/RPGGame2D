@@ -26,8 +26,8 @@ public class BossController : MonoBehaviour
 
     [Header("Health Settings")]
     [SerializeField][Range(0, 1000)] private float maxHealth = 1000f;
+    [SerializeField] private float klockbackForce = 50;
     public float health { get; private set; }
-    private bool isHit = false;
     private bool isDead = false;
 
 
@@ -150,7 +150,15 @@ public class BossController : MonoBehaviour
         if (isDead) return;
 
         health = Mathf.Max(health - damage, 0);
-        //isHit = true;
+
+        if (transform.position.x > playerTran.position.x)
+        {
+            rb.linearVelocity = new Vector2(-klockbackForce, rb.linearVelocity.y);
+        }
+        else
+        {
+            rb.linearVelocity = new Vector2(klockbackForce, rb.linearVelocity.y);
+        }
         anim.SetTrigger("hit");
 
         if (health <= 0)
@@ -160,12 +168,6 @@ public class BossController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
         }
     }
-    public void EndHit()
-    {
-        isHit = false;
-    }
-
-
 
     //GIZMOS
     private void OnDrawGizmos()
