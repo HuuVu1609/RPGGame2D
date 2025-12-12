@@ -73,6 +73,7 @@ public class EnemyController : MonoBehaviour
         if(health <= 0f)
         {
             rb.linearVelocity = Vector3.zero;
+            gameObject.layer = 0;
             anim.SetTrigger("die");
         }
         isAttack = false;

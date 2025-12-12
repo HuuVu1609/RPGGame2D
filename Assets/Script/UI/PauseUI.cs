@@ -6,7 +6,6 @@ public class PauseUI : MonoBehaviour
 {
     [SerializeField] private Slider[] sl;
     [SerializeField] private AudioSource[] au;
-    [SerializeField] private GameObject GamePlayUI;
 
     private void Start()
     {
@@ -28,23 +27,5 @@ public class PauseUI : MonoBehaviour
                 au[index].volume = v;
             });
         }
-    }
-    public void PauseContinue()
-    {
-        Time.timeScale = 1f;
-        gameObject.SetActive(false);
-        GamePlayUI.SetActive(true);
-    }
-    public void PauseOut()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("Menu");
-    }
-    public void PauseReplay()
-    {
-        Time.timeScale = 1f;
-        gameObject.SetActive(false);
-        GamePlayUI.SetActive(true);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

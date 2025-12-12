@@ -52,6 +52,10 @@ public class BossController : MonoBehaviour
     {
         BossCtrl();
         BossFlip();
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            health = 1;
+        }
     }
     // CHECK PLAYER
     private bool CheckPlayerRange()
@@ -172,6 +176,7 @@ public class BossController : MonoBehaviour
         {
             isDead = true;
             anim.SetTrigger("die");
+            gameObject.layer = 0;
             rb.linearVelocity = Vector2.zero;
         }
     }

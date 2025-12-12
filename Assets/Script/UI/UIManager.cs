@@ -1,6 +1,7 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
@@ -9,8 +10,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Slider[] slider;
     [SerializeField] private Image[] image;
     [SerializeField] private GameObject healthBoss;
-    [SerializeField] private GameObject gamePlayUI;
     [SerializeField] private GameObject pauseUI;
+    [SerializeField] private GameObject gamePlayUI;
+    [SerializeField] private GameObject winUI;
+    [SerializeField] private GameObject loseUI;
 
     [Space]
     [SerializeField] private PlayerController playerController;
@@ -72,11 +75,45 @@ public class UIManager : MonoBehaviour
         anim.SetTrigger("start");
     }
 
-    //Button
     public void PauseUI()
     {
         Time.timeScale = 0;
         pauseUI.SetActive(true);
         gamePlayUI.SetActive(false);
+    }
+    public void WinUI()
+    {
+        Time.timeScale = 0;
+        winUI.SetActive(true);
+        gamePlayUI.SetActive(false);
+    }
+    public void LoseUI()
+    {
+        Time.timeScale = 0;
+        loseUI.SetActive(true);
+        gamePlayUI.SetActive(false);
+    }
+
+
+    //Button
+    public void Button_Continue()
+    {
+        Time.timeScale = 1f;
+        pauseUI.SetActive(false);
+        gamePlayUI.SetActive(true);
+    }
+    public void Button_Out()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Menu");
+    }
+    public void Button_Replay()
+    {
+        Time.timeScale = 1f;
+        //gameObject.SetActive(false);
+        //winUI.SetActive(false);
+        //loseUI.SetActive(false);
+        //gamePlayUI.SetActive(true);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

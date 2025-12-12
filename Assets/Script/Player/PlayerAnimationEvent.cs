@@ -16,4 +16,8 @@ public class PlayerAnimationEvent : MonoBehaviour
     {
         controller.PlayerRollEnd();
     }
+    public void PlayerDeathAnimation()
+    {
+        UIManager.Instance.LoseUI();
+    }
 }

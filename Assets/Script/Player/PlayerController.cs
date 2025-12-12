@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [Header("HealthSettings")]
     [SerializeField] private float maxHealth;
     public float health { get; set; }
+    
 
     [Header("Skill")]
     [SerializeField] private PlayerSkill skill;
@@ -71,6 +72,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
         {
+            PlayerRollLayerStart();
             anim.SetTrigger("roll");
         }
 
@@ -123,15 +125,20 @@ public class PlayerController : MonoBehaviour
     }
     public void PlayerRollStart()
     {
-        isRoll = true;
-         playerCollider.excludeLayers = enemyLayer;
+         isRoll = true;
          rb.linearVelocity = new Vector2(rollSpeed * rollFlip, 0);
 
+    }
+    private void PlayerRollLayerStart()
+    {
+        playerCollider.excludeLayers = enemyLayer;
+        rb.excludeLayers = enemyLayer;
     }
     public void PlayerRollEnd()
     {
         isRoll = false;
         playerCollider.excludeLayers = 0;
+        rb.excludeLayers = 0;
         rb.linearVelocity = new Vector2(0 , 0);
     }
 
@@ -200,12 +207,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // DAMAGE
+    // DAMAGE && DEATH
     public void TakeDamage(float damage, float knockbackForce)
     {
         health = Mathf.Max(0, health - damage);
         anim.SetTrigger("hit");
         rb.linearVelocity = new Vector2(-knockbackForce, rb.linearVelocity.y);
+        if( health <= 0)
+        {
+            gameObject.layer = 0;
+            anim.SetTrigger("die");
+        }
     }
 
     // GIZMOS
