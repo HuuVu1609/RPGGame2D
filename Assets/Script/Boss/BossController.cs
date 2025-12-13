@@ -52,10 +52,16 @@ public class BossController : MonoBehaviour
     {
         BossCtrl();
         BossFlip();
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            health = 1;
-        }
+
+        // Demo
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    health = 1;
+        //}
+        //if(Input.GetKeyDown(KeyCode.O))
+        //{
+        //    health = 320f;
+        //}
     }
     // CHECK PLAYER
     private bool CheckPlayerRange()
@@ -140,7 +146,7 @@ public class BossController : MonoBehaviour
         {
             skill1Chance = 50;
             damage *= 2;
-            moveSpeed *= 2;
+            moveSpeed *= 2f;
             sr.color = Color.red;
         }
 
