@@ -10,6 +10,7 @@ public class NextLeverBoss : MonoBehaviour
         {
             isCollider.isTrigger = false;
             anim.SetBool("start",true);
+            AudioManager.Instance.BossSound();
             UIManager.Instance.IsBossHealthUI();
         }
     }

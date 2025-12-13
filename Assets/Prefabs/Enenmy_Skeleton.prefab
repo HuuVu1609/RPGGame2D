@@ -192,6 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 8225240274056463384}
   enemyController: {fileID: 8850738552599470434}
+  target: {fileID: 3128008254752324588}
 --- !u!1 &4063563958510819999
 GameObject:
   m_ObjectHideFlags: 0

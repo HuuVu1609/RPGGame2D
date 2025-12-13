@@ -17,6 +17,7 @@ public class AxBullet : MonoBehaviour
         if (bossCtrl != null)
         {
             bossCtrl.TakeDamage(30);
+            gameObject.SetActive(false);
         }
 
         //enemy
@@ -24,6 +25,7 @@ public class AxBullet : MonoBehaviour
         if (enemyCtrl != null)
         {
             enemyCtrl.TakeDamage(30);
+            gameObject.SetActive(false);
         }
     }
 }

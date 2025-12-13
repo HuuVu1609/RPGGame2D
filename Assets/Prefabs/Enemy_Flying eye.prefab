@@ -117,6 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 2778562606218052997}
   enemyController: {fileID: 9153699032938266254}
+  target: {fileID: 7695204022836335314}
 --- !u!1 &1145018842525881278
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,7 +518,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0
+  m_Value: 0.376
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -192,6 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 5482673008731818216}
   enemyController: {fileID: 430689208708181389}
+  target: {fileID: 8777140819966658814}
 --- !u!1 &2164339027421065202
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +396,7 @@ MonoBehaviour:
   playerRange: 3
   playerDamage: 2
   knockbackForce: 30
-  maxHealth: 90.7
+  maxHealth: 100
   klockbackForce: 0
 --- !u!114 &6507024745628232571
 MonoBehaviour:

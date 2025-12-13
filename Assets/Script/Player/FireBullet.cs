@@ -32,7 +32,8 @@ public class FireBullet : MonoBehaviour
         var bossCtrl = collision.GetComponent<BossController>();
         if(bossCtrl != null)
         {
-                bossCtrl.TakeDamage(50);
+            bossCtrl.TakeDamage(50);
+            gameObject.SetActive(false);
         }
 
         //enemy
@@ -40,6 +41,7 @@ public class FireBullet : MonoBehaviour
         if (enemyCtrl != null)
         {
             enemyCtrl.TakeDamage(50);
+            gameObject.SetActive(false);
         }
     }
 

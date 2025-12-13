@@ -30,13 +30,13 @@ public class UIManager : MonoBehaviour
     }
     private void Start()
     {
-        bossController = GameObject.FindAnyObjectByType<BossController>();
+        //bossController = GameObject.FindAnyObjectByType<BossController>();
 
         slider[0].maxValue = 100;
-        slider[0].value = playerController.health;
+        //slider[0].value = playerController.health;
 
         slider[1].maxValue = 1000;
-        slider[1].value = playerController.health;
+        //slider[1].value = bossController.health;
     }
     private void Update()
     {

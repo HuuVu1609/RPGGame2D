@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     public Animator anim { get; private set; }
     private SpriteRenderer sr;
+    private bool isdeath;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
 
         attackCount = 0;
         health = maxHealth;
+        isdeath = false;
     }
     private void Update()
     {
@@ -62,6 +64,7 @@ public class PlayerController : MonoBehaviour
     private void PlayerInput()
     {
         //input
+        if(isdeath) return;
         inputH = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -118,7 +121,7 @@ public class PlayerController : MonoBehaviour
         {
             rb.gravityScale = 3;
         }
-        else if (rb.linearVelocity.y == 0 && isGrounded)
+        else if (rb.linearVelocity.y >= 0 && isGrounded)
         {
             rb.gravityScale = 1;
         }
@@ -215,8 +218,10 @@ public class PlayerController : MonoBehaviour
         rb.linearVelocity = new Vector2(-knockbackForce, rb.linearVelocity.y);
         if( health <= 0)
         {
+            isdeath = true;
             gameObject.layer = 0;
             anim.SetTrigger("die");
+
         }
     }
 
