@@ -157,7 +157,8 @@ public class EnemyController : MonoBehaviour
         if (playerTran == null) return;
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, playerTran.position + new Vector3(playerRange, 0));
+        Gizmos.DrawRay(transform.position, transform.right * playerRange);
+
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
